@@ -20,8 +20,11 @@ class logofier():
             print('Processing ', filename, '...')
             if not (filename.endswith('.png') or filename.endswith('.jpg') or filename.endswith('.PNG') or filename.endswith('.JPG')):# or filename == logo_file:
                 continue
-            self.im = Image.open(self.pictures_directory+'/'+filename)
+            self.im = Image.open(self.pictures_directory+'/'+filename).convert("RGB")
             width, height = self.im.size
+            self.card = Image.new("RGB", (width, height), (255, 255, 255))     # CARD
+            # self.card.paste(self.im, (0, 0, width, height), self.im)                     # CARD
+            self.card.paste(self.im, (0, 0, width, height))                     # CARD
             sq_fit_size = 0
             print(all_globals.max_logo_size)
             
@@ -33,7 +36,7 @@ class logofier():
             for logo_file, value in all_globals.logo_choice.items():        
                 valueInt = value.get()         # value in tk.IntVar() to get Int we will have to .get()
 
-                logoIm = Image.open(self.logos_directory+'/'+logo_file)
+                logoIm = Image.open(self.logos_directory+'/'+logo_file).convert("RGB")
                 logoWidth, logoHeight = logoIm.size
                 logo_area = logoHeight * logoWidth
 
@@ -52,21 +55,25 @@ class logofier():
 
                 # ---------- Checks position and pastes logo onto that position ----------
                 if valueInt == 1:      # tr
-                    self.im.paste(logoIm, (width - logoWidth - self.tr_margin - 20, 20), logoIm)  # paste logo onto image
+                    # self.im.paste(logoIm, (width - logoWidth - self.tr_margin - 20, 20), logoIm)  # paste logo onto image
+                    self.card.paste(logoIm, (width - logoWidth - self.tr_margin - 20, 20))  # paste logo onto image
                     self.tr_margin += sq_fit_size
                 elif valueInt == 2:      # tl
-                    self.im.paste(logoIm, ( self.tl_margin + 20, 20), logoIm)  # paste logo onto image
+                    # self.im.paste(logoIm, ( self.tl_margin + 20, 20), logoIm)  # paste logo onto image
+                    self.card.paste(logoIm, ( self.tl_margin + 20, 20))  # paste logo onto image
                     self.tl_margin += sq_fit_size
                 elif valueInt == 3:      # br
-                    self.im.paste(logoIm, (width - logoWidth - self.br_margin - 20, height - logoHeight - 20), logoIm)  # paste logo onto image
+                    # self.im.paste(logoIm, (width - logoWidth - self.br_margin - 20, height - logoHeight - 20), logoIm)  # paste logo onto image
+                    self.card.paste(logoIm, (width - logoWidth - self.br_margin - 20, height - logoHeight - 20))  # paste logo onto image
                     self.br_margin += sq_fit_size
                 elif valueInt == 4:      # bl
-                    self.im.paste(logoIm, ( self.bl_margin + 20, height - logoHeight - 20), logoIm)  # paste logo onto image
+                    # self.im.paste(logoIm, ( self.bl_margin + 20, height - logoHeight - 20), logoIm)  # paste logo onto image
+                    self.card.paste(logoIm, ( self.bl_margin + 20, height - logoHeight - 20))  # paste logo onto image
                     self.bl_margin += sq_fit_size
 
                 # # logoIm.putalpha(95) # opacity
 
-            self.im.save(os.path.join(all_globals.withlogo_directory, filename), quality=100)                      # save the logo-ed file
+            self.card.save(os.path.join(all_globals.withlogo_directory, filename), format='JPEG', quality=100)                      # save the logo-ed file
             self.tr_margin = 0
             self.tl_margin = 0
             self.br_margin = 0
