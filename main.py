@@ -68,6 +68,10 @@ def makeLogosList():
     global root
     logo_options_row = 1
     
+    # Destroy previous frames:
+    for frame in all_globals.frames:
+        frame.destroy()
+
     for logo_file in os.listdir(all_globals.logos_directory):
 
         # Each logo will have a separate frame containing a set of widgets
