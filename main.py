@@ -16,8 +16,10 @@
 # from source import *
 # os.system("python source.py")
 import os
-import source
-import all_globals
+# import source
+# import all_globals
+from source import *
+from all_globals import *
 from tkinter import *
 import tkinter.filedialog as tkFileDialog
 

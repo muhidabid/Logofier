@@ -1,4 +1,5 @@
-import all_globals
+# import all_globals
+from all_globals import *
 import os
 from PIL import Image
 
