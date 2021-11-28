@@ -76,12 +76,14 @@ class logofier():
             # self.card.paste(self.im, (0, 0, width, height), self.im)                     # CARD
             self.card.paste(self.im, (0, 0, width, height))                     # CARD
             sq_fit_size = 0
-            print(max_logo_size)
+            padding = 0
             
             if width > height:
                 sq_fit_size = int(max_logo_size/100 * height)
+                padding = int(1/100 * height)
             else:
                 sq_fit_size = int(max_logo_size/100 * width)
+                padding = int(1/100 * width)
 
             for logo_file, value in logo_choice.items():        
                 valueInt = value.get()         # value in tk.IntVar() to get Int we will have to .get()
@@ -107,20 +109,20 @@ class logofier():
 
                 # ---------- Checks position and pastes logo onto that position ----------
                 if valueInt == 1:      # tr
-                    # self.im.paste(logoIm, (width - logoWidth - self.tr_margin - 20, 20), logoIm)  # paste logo onto image
-                    self.card.paste(logoIm, (width - logoWidth - self.tr_margin - 20, 20), logoIm)  # paste logo onto image
+                    # self.card.paste(logoIm, (width - logoWidth - self.tr_margin - 20, 20), logoIm)  # paste logo onto image
+                    self.card.paste(logoIm, (width - logoWidth - self.tr_margin - padding, padding), logoIm)  # paste logo onto image
                     self.tr_margin += sq_fit_size
                 elif valueInt == 2:      # tl
-                    # self.im.paste(logoIm, ( self.tl_margin + 20, 20), logoIm)  # paste logo onto image
-                    self.card.paste(logoIm, ( self.tl_margin + 20, 20), logoIm)  # paste logo onto image
+                    # self.card.paste(logoIm, ( self.tl_margin + 20, 20), logoIm)  # paste logo onto image
+                    self.card.paste(logoIm, ( self.tl_margin + padding, padding), logoIm)  # paste logo onto image
                     self.tl_margin += sq_fit_size
                 elif valueInt == 3:      # br
-                    # self.im.paste(logoIm, (width - logoWidth - self.br_margin - 20, height - logoHeight - 20), logoIm)  # paste logo onto image
-                    self.card.paste(logoIm, (width - logoWidth - self.br_margin - 20, height - logoHeight - 20), logoIm)  # paste logo onto image
+                    # self.card.paste(logoIm, (width - logoWidth - self.br_margin - 20, height - logoHeight - 20), logoIm)  # paste logo onto image
+                    self.card.paste(logoIm, (width - logoWidth - self.br_margin - padding, height - logoHeight - padding), logoIm)  # paste logo onto image
                     self.br_margin += sq_fit_size
                 elif valueInt == 4:      # bl
-                    # self.im.paste(logoIm, ( self.bl_margin + 20, height - logoHeight - 20), logoIm)  # paste logo onto image
-                    self.card.paste(logoIm, ( self.bl_margin + 20, height - logoHeight - 20), logoIm)  # paste logo onto image
+                    # self.card.paste(logoIm, ( self.bl_margin + 20, height - logoHeight - 20), logoIm)  # paste logo onto image
+                    self.card.paste(logoIm, ( self.bl_margin + padding, height - logoHeight - padding), logoIm)  # paste logo onto image
                     self.bl_margin += sq_fit_size
 
             
