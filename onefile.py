@@ -156,7 +156,6 @@ class logofier():
 # ------- Making the window layout -------
 root=Tk(className=' Logofier - Add multiple logos to multiple images!')    
 root.geometry("1000x650")                         # set window size
-# root.iconbitmap("C:\\Users\\muhidabid\\Desktop\\JUMBO\\FAST\\projects\\logos_adder\\icons\\maswork_black.ico")     # set window icon
 root.configure(bg='#F6ECBF')
 
 # ----------- Working of window -----------
