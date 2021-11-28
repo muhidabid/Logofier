@@ -1,5 +1,7 @@
+# Feel free to improve the program and send a pull request
 # Logofier
-Add multiple logos/watermarks to multiple pictures!
+An opensource program adds multiple logos/watermarks to multiple pictures!
+
 
 *RUN LOGOFIER!.EXE*
 
