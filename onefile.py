@@ -16,6 +16,7 @@
 import os
 from tkinter import *
 import tkinter.filedialog as tkFileDialog
+from tkinter import messagebox
 from PIL import Image
 
 
@@ -151,7 +152,7 @@ class logofier():
 
 
 
-
+# ----------------------------------------- UI --------------------------------------------------#
 
 # ------- Making the window layout -------
 root=Tk(className=' Logofier - Add multiple logos to multiple images!')    
@@ -247,12 +248,27 @@ def makeLogosList():
 
         logo_options_row+=1
 
+def instructionsMessage():
+    messagebox.showinfo('Instructions', 'Step 1:\n  Select folder with all the pictures you want to apply logo on\nStep 2:\n  Select folder with all your logos\nStep 3:\n  Select folder where you want to export to\nStep 4:\n    Select positions of your logos\nStep 5:\n   Open your folder to check your exported pictures!')
+
+def aboutMessage():
+    messagebox.showinfo('About', '# Feel free to improve the program and send a pull request\n# Logofier\nAn opensource program adds multiple logos/watermarks to multiple pictures!\n\nMade by: Muhid Abid\n\n\nPhotography\n\nInsta: @maswork17\nTwitter: @maswork17\nEmail: maswork17@gmail.com')
+
 if __name__ == "__main__": 
         
     initialize()
 
     logofy_frame = LabelFrame(root, text='Click here to apply logos to all your pictures', padx=5, pady=5)
     logofy_frame.pack(padx=10, pady=10)
+
+    # Creating Menubar
+    menubar = Menu(root)
+    about = Menu(menubar, tearoff = 0)
+    menubar.add_cascade(label ='Options', menu = about)
+    about.add_command(label ='Instructions', command = instructionsMessage)
+    about.add_command(label ='About', command = aboutMessage)
+    # display Menu
+    root.config(menu = menubar)
 
     b1=Button(logofy_frame,text="LOGOFY!",font=40,command=logofy, bg='#C886E5')
     b1.pack()
