@@ -1,6 +1,8 @@
 # Logofier
 Add multiple logos/watermarks to multiple pictures!
 
+*RUN LOGOFIER!.EXE*
+
 Step 1:
   Select folder with all the pictures you want to apply logo on
 
