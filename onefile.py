@@ -24,11 +24,8 @@ def initialize():
     global max_logo_size      # this is the percent logo will be of the shorter side of the image
     max_logo_size = 10
     
-    global values_master
-    values_master = {}
-    
     global logo_choice
-    logo_choice = {}
+    logo_choice = {}        # logoFileName : Choice
 
     global pictures_directory
     pictures_directory = ''
@@ -58,7 +55,6 @@ class logofier():
 
     def logofy(self):
         global max_logo_size
-        global values_master
         global logo_choice
         global pictures_directory
         global logos_directory
@@ -69,7 +65,7 @@ class logofier():
         for filename in os.listdir(self.pictures_directory):
 
             print('Processing ', filename, '...')
-            if not (filename.endswith('.png') or filename.endswith('.jpg') or filename.endswith('.PNG') or filename.endswith('.JPG')):# or filename == logo_file:
+            if not (filename.lower().endswith(('.png', '.jpg', '.jpeg'))):# or filename == logo_file:
                 continue
             self.im = Image.open(self.pictures_directory+'/'+filename).convert("RGBA")
             width, height = self.im.size
@@ -176,6 +172,16 @@ def logofy():
     global pictures_directory
     global logos_directory
     # ------ calling logofy functions ------
+    if pictures_directory == '' or withlogo_directory == '' or logos_directory == '':
+        messagebox.showwarning('Warning', 'Please select all folders.')
+        return
+
+    for logo_file, value in logo_choice.items():
+        valueInt = value.get()         # value in tk.IntVar() to get Int we will have to .get()
+        if valueInt != 1 and valueInt != 2 and valueInt != 3 and valueInt != 4:
+            messagebox.showwarning('Warning', 'Please specify position of every logo.')
+            return
+
     logofier_obj = logofier(pictures_directory, logos_directory)
     logofier_obj.logofy()
 
@@ -203,7 +209,6 @@ def browseLocation():
 
 def makeLogosList():
     global max_logo_size
-    global values_master
     global logo_choice
     global pictures_directory
     global logos_directory
@@ -218,35 +223,34 @@ def makeLogosList():
         frame.destroy()
 
     for logo_file in os.listdir(logos_directory):
+        if logo_file.lower().endswith(('.png', '.jpg', '.jpeg')):
+            # Each logo will have a separate frame containing a set of widgets
+            logo_frame = Frame(root, padx=5, pady=5)
+            logo_frame.pack()
+            frames.append(logo_frame)
 
-        # Each logo will have a separate frame containing a set of widgets
-        logo_frame = Frame(root, padx=5, pady=5)
-        logo_frame.pack()
-        frames.append(logo_frame)
+            # -- 2 -- Label stating logo name
+            l1 = Label( logo_frame, text=logo_file, font='Helvetica 9 bold').grid(row=0,column=1)
+            widgets.append(l1)
 
-        # -- 2 -- Label stating logo name
-        l1 = Label( logo_frame, text=logo_file, font='Helvetica 9 bold').grid(row=0,column=1)
-        widgets.append(l1)
+            # -- 3 -- Radio buttons to specify location
+            l2 = Label( logo_frame, text='Select logo position:').grid(row=logo_options_row,column=1)
+            widgets.append(l2)
 
-        # -- 3 -- Radio buttons to specify location
-        l2 = Label( logo_frame, text='Select logo position:').grid(row=logo_options_row,column=1)
-        widgets.append(l2)
+            # Dictionary to create multiple buttons
+            values = {"Top right" : 1,           #   1 = tr
+                    "Top left" : 2,              #   2 = tl
+                    "Bottom right" : 3,          #   3 = br
+                    "Bottom left" : 4,}          #   4 = bl
+            
+            logo_choice[logo_file] = IntVar()
+            
+            # Loop is used to create multiple Radiobuttons rather than creating each button separately
+            for (text, value) in values.items():
+                r = Radiobutton(logo_frame, text = text, variable = logo_choice[logo_file], value = value, indicator = 1, bg = "#F9F9F9").grid(row=logo_options_row,column=value+1)
+                widgets.append(r)
 
-        # Dictionary to create multiple buttons
-        values = {"Top right" : 1,           #   1 = tr
-                "Top left" : 2,              #   2 = tl
-                "Bottom right" : 3,          #   3 = br
-                "Bottom left" : 4,}          #   4 = bl
-        
-        # values_master[logo_file] = values
-        logo_choice[logo_file] = IntVar()
-        
-        # Loop is used to create multiple Radiobuttons rather than creating each button separately
-        for (text, value) in values.items():
-            r = Radiobutton(logo_frame, text = text, variable = logo_choice[logo_file], value = value, indicator = 1, bg = "#F9F9F9").grid(row=logo_options_row,column=value+1)
-            widgets.append(r)
-
-        logo_options_row+=1
+            logo_options_row+=1
 
 def instructionsMessage():
     messagebox.showinfo('Instructions', 'Step 1:\n  Select folder with all the pictures you want to apply logo on\nStep 2:\n  Select folder with all your logos\nStep 3:\n  Select folder where you want to export to\nStep 4:\n    Select positions of your logos\nStep 5:\n   Open your folder to check your exported pictures!')
